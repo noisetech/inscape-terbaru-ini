@@ -95,9 +95,11 @@ Route::prefix('dashboard')
         Route::get('dataParameterBarangById', [BarangController::class, 'dataParameterBarangById'])
             ->name('dataParameterBarangById');
         Route::post('parameterBarangUpdate', [BarangController::class, 'parameterBarangUpdate'])
-        ->name('parameterBarangUpdate');
+            ->name('parameterBarangUpdate');
 
         // spesifikasi parameter
+        Route::get('spesifikasiParameterById', [BarangController::class, 'spesifikasiParameterById'])
+            ->name('spesifikasiParameterById');
 
 
 

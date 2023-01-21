@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\ParameterBarang;
+use App\Models\SpesifikasiParameter;
 use App\Models\SubBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,23 +31,23 @@ class BarangController extends Controller
                     $button = "
                     <div class='d-flex justify-content-start align-items-center'>
                         <div class='label-main'>
-                        <a class='sub_barang label label-info' href='javascript:' id='" . $data->id . "' data-toggle='modal' data-target='#data_sub_barang'>Sub Barang</a>
+                        <a href='javascript:void(0)' class='sub_barang label label-info' href='javascript:' id='" . $data->id . "' data-toggle='modal' data-target='#data_sub_barang'>Sub Barang</a>
                         </div>";
                     $button .= "
 
                         <div class='label-main'>
-                        <a class='parameter_barang label label-success' href='javascript:' id='" . $data->id . "' data-toggle='modal' data-target='#data_parameter_barang'>Parameter Barang</a>
+                        <a href='javascript:void(0)' class='parameter_barang label label-success' href='javascript:' id='" . $data->id . "' data-toggle='modal' data-target='#data_parameter_barang'>Parameter Barang</a>
                         </div>";
 
                     $button .= "
 
                         <div class='label-main'>
                         <a class='edit label label-warning
-                        btn-warning' href='javascript:' id='" . $data->id . "' data-toggle='modal' data-target='#exampleModal2'>ubah</a>
+                        btn-warning' href='javascript:void(0)' id='" . $data->id . "' data-toggle='modal' data-target='#exampleModal2'>Ubah barang</a>
                         </div>";
                     $button  .= "<div class='label-main'>
-                            <a href='javascript;' class='hapus label label-danger'
-                            id='" . $data->id . "'>hapus</a>
+                            <a href='javascript:void(0)' class='hapus label label-danger'
+                            id='" . $data->id . "'>Hapus barang</a>
                        </div>
                             </div>
                  ";
@@ -352,15 +353,14 @@ class BarangController extends Controller
                         </div>";
 
                     $button  .= "<div class='label-main'>
-                            <a href='javascript;' class='hapus_parameter_barang label label-danger'
+                            <a href='javascript:void(0)' class='hapus_parameter_barang label label-danger'
                             id='" . $data->id . "'>Hapus</a>
                        </div>
 
                  ";
                     $button  .= "<div class='label-main'>
-                            <a href='javascript;' class='hapus_parameter_barang label label-info'
-                            id='" . $data->id . "'>Spesifikasi parameter</a>
-                       </div>
+                            <a href='javascript:void(0)' class='spesifikasi_parameter_barang label label-info'
+                            id='" . $data->id . "' data-toggle='modal' data-target='#modal_spesifkasi_parameter'>Spesifikasi parameter</a>
                        </div>
                  ";
                     return $button;
@@ -447,5 +447,54 @@ class BarangController extends Controller
             ]);
         }
 
+        $spesifikasi_parameter = new SpesifikasiParameter();
+        $spesifikasi_parameter->id = $request->parameter_id;
+        $spesifikasi_parameter->name = $request->spesifikasi;
+        $simpan =  $spesifikasi_parameter->save();
+
+        if ($simpan) {
+            return response()->json([
+                'status' => 'success',
+                'title' => 'Berhasil',
+                'message' => 'Data ditambah'
+            ]);
+        }
+    }
+
+    public function spesifikasiParameterById(Request $request)
+    {
+        $spesifikasi_parameter = SpesifikasiParameter::find($request->id);
+
+        return response()->json($spesifikasi_parameter);
+    }
+
+    public function spesifikasiParameterUpdate(Request $request)
+    {
+        $spesifikasi_parameter = SpesifikasiParameter::find($request->id);
+        $spesifikasi_parameter->id = $request->parameter_id;
+        $spesifikasi_parameter->name = $request->spesifikasi;
+        $ubah = $spesifikasi_parameter->save();
+
+        if ($ubah) {
+            return response()->json([
+                'status' => 'success',
+                'title' => 'Berhasil',
+                'message' => 'Data ditambah'
+            ]);
+        }
+    }
+
+    public function sepsifikasiParameterDestroy(Request $request)
+    {
+        $spesifikasi_parameter = SpesifikasiParameter::find($request->id);
+        $hapus = $spesifikasi_parameter->delete();
+
+        if ($hapus) {
+            return response()->json([
+                'status' => 'success',
+                'title' => 'Berhasil',
+                'message' => 'Data dihapu'
+            ]);
+        }
     }
 }

@@ -4,6 +4,12 @@
         .cell_table {
             max-width: 250px;
         }
+
+        @media only screen and (max-width: 100) {
+            .modal-lg {
+                width: 800px;
+            }
+        }
     </style>
     <div class="pcoded-content">
         <!-- Page-header start -->
@@ -232,8 +238,6 @@
     </div>
     {{-- modal akhir tambah sub_barang --}}
 
-
-
     {{-- modal edit sub_barang --}}
     <div class="modal fade" id="modal_edit_sub_barang" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -309,7 +313,7 @@
     {{-- modal tambah parameter_barang --}}
     <div class="modal fade" id="modal_tambah_parameter_barang" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Form Tambah Parameter Barang</h5>
@@ -356,9 +360,9 @@
                     <form action="#" method="POST" id="update_parameter_barang" enctype="multipart/form-data">
                         @csrf
 
-                        <input type="text" name="barang_id" class="bahan_id_edit_parameter_barang">
+                        <input type="hidden" name="barang_id" class="bahan_id_edit_parameter_barang">
 
-                        <input type="text" name="id" class="id_parameter">
+                        <input type="hidden" name="id" class="id_parameter">
 
                         <div class="form-group">
                             <label for="">Parameter</label>
@@ -383,6 +387,48 @@
         </div>
     </div>
     {{-- akhir modal edit parameter barang --}}
+
+
+    {{-- modal data spesifikasi parameter --}}
+    <div class="modal fade" id="modal_spesifkasi_parameter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="title_table_spesifikasi_parameter"></h5>
+
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="label label-primary tambah_spesifikasi_parameter"
+                            id="old_bahan_tambah_spesifikasi_parameter">Tambah</a>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="datatables_spesifikasi_parameter" class="table table-striped responsive nowrap"
+                            cellpadding="0" cellspacing="0" width="100%">
+
+                            <thead>
+                                <tr>
+                                    <th>Spesifikasi Parameter</th>
+                                    <th>Level</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 
@@ -660,6 +706,9 @@
 
         });
 
+
+
+
         $("#create_sub_barang").submit(function(e) {
             e.preventDefault();
             const fd = new FormData(this);
@@ -698,6 +747,8 @@
                 }
             });
         });
+
+
 
 
         $(document).on('click', '.hapus_sub_barang', function(e) {
@@ -869,6 +920,7 @@
         });
 
 
+
         $("#create_parameter_barang").submit(function(e) {
             e.preventDefault();
             const fd = new FormData(this);
@@ -907,6 +959,7 @@
                 }
             });
         });
+
 
         $(document).on('click', '.edit_parameter_barang', function(e) {
             e.preventDefault();
@@ -1010,6 +1063,37 @@
                     })
                 }
             })
+        });
+
+        $(document).ready(function() {
+            $('#datatables_spesifikasi_parameter').DataTable();
+        });
+
+        // spesifikasi parameter
+
+        $(document).on('click', '.spesifikasi_parameter_barang', function(e) {
+
+            e.preventDefault();
+
+            // console.log($id_parameter_untuk_sepesifikasi_parameter_table);
+
+            $('#data_parameter_barang').modal('hide');
+
+            let id_parameter_untuk_sepesifikasi_parameter_table = $(this).attr('id');
+
+            $('#old_bahan_tambah_spesifikasi_parameter').attr('id', id_parameter_untuk_sepesifikasi_parameter_table);
+
+            $.ajax({
+                url: '{{ route('dataParameterBarangById') }}',
+                method: 'get',
+                data: {
+                    id: id_parameter_untuk_sepesifikasi_parameter_table,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#title_table_spesifikasi_parameter').text('Spesifikasi' + ' ' + data.parameter);
+                }
+            });
         });
     </script>
 @endpush
