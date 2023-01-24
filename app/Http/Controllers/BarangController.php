@@ -430,14 +430,43 @@ class BarangController extends Controller
 
 
     // spesifikasi parameter
+
+    public function data_spesifikasi_paramemter(Request $request)
+    {
+        $data = SpesifikasiParameter::where('parameter_id', $request->parameter_id)->get();
+
+        return datatables()->of($data)
+
+            ->addColumn('aksi', function ($data) {
+                $button = "
+                    <div class='d-flex justify-content-start'>
+                        <div class='label-main'>
+                        <a class='edit_spesifikasi_parameter label label-warning' href='javascript:' id='" . $data->id . "'>Ubah</a>
+                        </div>";
+
+                $button  .= "<div class='label-main'>
+                            <a href='javascript:void(0)' class='hapus_spesifikasi_parameter label label-danger'
+                            id='" . $data->id . "'>Hapus</a>
+                       </div>
+                       </div>
+
+                 ";
+                return $button;
+            })
+            ->rawColumns(['aksi'])
+            ->make('true');
+    }
+
     public function store_spesifikasi_parameter(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'parameter_id' => 'required',
             'spesifikasi' => 'required',
+            'level' => 'required'
         ], [
             'parameter_id.required' => 'tidak boleh kosong',
             'spesifikasi.required' => 'tidak boleh kosong',
+            'level.required' => 'tidak boleh kosong'
         ]);
 
         if ($validator->fails()) {
@@ -448,8 +477,9 @@ class BarangController extends Controller
         }
 
         $spesifikasi_parameter = new SpesifikasiParameter();
-        $spesifikasi_parameter->id = $request->parameter_id;
-        $spesifikasi_parameter->name = $request->spesifikasi;
+        $spesifikasi_parameter->parameter_id = $request->parameter_id;
+        $spesifikasi_parameter->spesifikasi = $request->spesifikasi;
+        $spesifikasi_parameter->level = $request->level;
         $simpan =  $spesifikasi_parameter->save();
 
         if ($simpan) {
@@ -470,16 +500,35 @@ class BarangController extends Controller
 
     public function spesifikasiParameterUpdate(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'parameter_id' => 'required',
+            'spesifikasi' => 'required',
+            'level' => 'required'
+        ], [
+            'parameter_id.required' => 'tidak boleh kosong',
+            'spesifikasi.required' => 'tidak boleh kosong',
+            'level.required' => 'tidak boleh kosong'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'error' => $validator->errors()->toArray()
+            ]);
+        }
+
         $spesifikasi_parameter = SpesifikasiParameter::find($request->id);
-        $spesifikasi_parameter->id = $request->parameter_id;
-        $spesifikasi_parameter->name = $request->spesifikasi;
+        $spesifikasi_parameter->parameter_id = $request->parameter_id;
+        $spesifikasi_parameter->spesifikasi = $request->spesifikasi;
+        $spesifikasi_parameter->level = $request->level;
         $ubah = $spesifikasi_parameter->save();
 
         if ($ubah) {
             return response()->json([
                 'status' => 'success',
                 'title' => 'Berhasil',
-                'message' => 'Data ditambah'
+                'message' => 'Data diubah'
             ]);
         }
     }

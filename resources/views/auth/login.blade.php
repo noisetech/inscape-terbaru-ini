@@ -105,7 +105,8 @@
                         @csrf
 
                         <div class="text-center">
-                            <img src="{{ asset('backend/logo pln.jpg') }}" width="70px;" alt="logo.png" class="img-thumbnail">
+                            <img src="{{ asset('backend/logo-pln-ni.png') }}" width="100px;" alt="logo.png"
+                               class="img-thumbnail" >
                         </div>
                         <div class="auth-box card">
                             <div class="card-header">

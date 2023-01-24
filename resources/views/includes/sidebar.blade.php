@@ -17,7 +17,7 @@
 
         <center>
             <li class="my-4">
-                <img src="{{ asset('backend/logo pln.jpg') }}" alt="" style="width: 60px" class="img-thumbnail">
+                <img src="{{ asset('backend/logo-pln-ni.png') }}" alt="" style="width: 100px">
             </li>
         </center>
         <li>

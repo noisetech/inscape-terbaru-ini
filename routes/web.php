@@ -98,8 +98,16 @@ Route::prefix('dashboard')
             ->name('parameterBarangUpdate');
 
         // spesifikasi parameter
+        Route::get('data_spesifikasi_paramemter', [BarangController::class, 'data_spesifikasi_paramemter'])
+            ->name('data_spesifikasi_paramemter');
         Route::get('spesifikasiParameterById', [BarangController::class, 'spesifikasiParameterById'])
             ->name('spesifikasiParameterById');
+        Route::post('store_spesifikasi_parameter', [BarangController::class, 'store_spesifikasi_parameter'])
+            ->name('store_spesifikasi_parameter');
+        Route::post('sepsifikasiParameterDestroy', [BarangController::class, 'sepsifikasiParameterDestroy'])
+            ->name('sepsifikasiParameterDestroy');
+        Route::post('spesifikasiParameterUpdate', [BarangController::class, 'spesifikasiParameterUpdate'])
+            ->name('spesifikasiParameterUpdate');
 
 
 
