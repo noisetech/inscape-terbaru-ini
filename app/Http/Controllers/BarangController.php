@@ -7,6 +7,7 @@ use App\Models\ParameterBarang;
 use App\Models\SpesifikasiParameter;
 use App\Models\SubBarang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -206,8 +207,15 @@ class BarangController extends Controller
                             <a href='javascript;' class='hapus_sub_barang label label-danger'
                             id='" . $data->id . "'>Hapus</a>
                        </div>
-                            </div>
                  ";
+
+
+                    $button  .= "<div class='label-main'>
+                 <a href='javascript;' class='sepsifikasi_sub_barang label label-info'
+                 id='" . $data->id . "'  data-toggle='modal' data-target='#modal_spesifikasi_sub_barang'>Spesifikasi sub barang</a>
+            </div>
+                 </div>
+      ";
                     return $button;
                 })
                 ->rawColumns(['aksi'])
@@ -545,5 +553,68 @@ class BarangController extends Controller
                 'message' => 'Data dihapu'
             ]);
         }
+    }
+
+    // bagian spesifikasi sub barang
+
+    public function data_spesifikasi_sub_barang(Request $request)
+    {
+        $data = SpesifikasiParameter::where('parameter_id', $request->parameter_id)->get();
+
+        return datatables()->of($data)
+
+            ->addColumn('aksi', function ($data) {
+                $button = "
+                    <div class='d-flex justify-content-start'>
+                        <div class='label-main'>
+                        <a class='edit_spesifikasi_parameter label label-warning' href='javascript:' id='" . $data->id . "'>Ubah</a>
+                        </div>";
+
+                $button  .= "<div class='label-main'>
+                            <a href='javascript:void(0)' class='hapus_spesifikasi_parameter label label-danger'
+                            id='" . $data->id . "'>Hapus</a>
+                       </div>
+                       </div>
+
+                 ";
+                return $button;
+            })
+            ->rawColumns(['aksi'])
+            ->make('true');
+    }
+
+    public function formTambahSpesifkkasiSubBarang(Request $request)
+    {
+
+        $sub_barang = SubBarang::where('id', $request->sub_barang_id)->first();
+
+        $parameter = ParameterBarang::whereIn('barang_id', [$sub_barang->barang_id])->get();
+
+        $html = '<form action="#" method="post" id="form_tambah_spesifikasi_sub_barang">
+        <input type="hidden" name="_token" value="' . csrf_token() . '" />
+
+         <input type="hidden" name="sub_barang_id" value="' . $sub_barang->id . '">';
+        foreach ($parameter as  $parameter) :
+
+            $html .=      '<div class="form-group">
+            <label for="">' . $parameter->parameter . '</label>
+            <select class="form-control" name="spesifikasi_parameter">';
+            foreach ($parameter->spesifikasi as  $spesifikasi) :
+                $html .=  '<option value="' . $spesifikasi->id . '">' . $spesifikasi->spesifikasi . '</option>';
+            endforeach;
+            $html .= '</select>
+            <span class="text-danger error-text permissions_error"></span>
+        </div>';
+
+        endforeach;
+
+        $html .=  '
+        <div class="modal-footer">
+        <button type="submit" class="btn label label-primary"
+            id="form_tambah_spesifikasi_sub_barang_btn">Simpan</button>
+         </div>
+        </form>';
+
+        return response()->json($html);
     }
 }

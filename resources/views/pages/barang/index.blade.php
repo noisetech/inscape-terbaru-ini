@@ -493,8 +493,8 @@
                     <form action="#" method="POST" id="form_edit_spesifikasi_parameter">
                         @csrf
 
-                        <input type="hidden" name="parameter_id"
-                            class="form-control" id="paramater_id_bahan_edit_spesifikasi_parameter">
+                        <input type="hidden" name="parameter_id" class="form-control"
+                            id="paramater_id_bahan_edit_spesifikasi_parameter">
 
                         <input type="hidden" name="id" id="data_id_edit_spesifikasi_parameter"
                             class="form-control">
@@ -526,6 +526,72 @@
     </div>
 
     {{-- akhir modal edit spesifikasi parameter --}}
+
+
+    {{-- modal data spesifikasi sub barang --}}
+    <div class="modal fade" id="modal_spesifikasi_sub_barang" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="title_table_spesifikasi_parameter"></h5>
+
+                    <div class="d-flex justify-content-end">
+                        <a href="#" class="label label-primary tambah_spesifikasi_sub_barang"
+                            id="old_bahan_tambah_spesifikasi_sub_barang">Tambah</a>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="datatables_spesifikasi_sub_barang" class="table table-striped responsive nowrap"
+                            cellpadding="0" cellspacing="0" width="100%">
+
+                            <thead>
+                                <tr>
+                                    <th>Spesifikasi Parameter</th>
+                                    <th>Level</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{-- modal akhir spesisifkasi sub barang --}}
+
+
+    {{-- modal tambah spesifikasi sub_barang --}}
+    <div class="modal fade" id="modal_tambah_spesifikasi_sub_barang" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title font-weight-bold text-dark" id="title_tambah_spesifikasi_sub_barang"></p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="content_form_spesifikasi_sub_barang">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- akhir modal tambah spesifikasi sub barang --}}
 @endsection
 
 
@@ -1427,5 +1493,62 @@
                 }
             })
         });
+
+
+        // bagian spesifikasi sub barrang
+
+        $(document).on('click', '.sepsifikasi_sub_barang', function(e) {
+            e.preventDefault();
+            $('#data_sub_barang').modal('hide');
+
+            let bahan_id_sub_barang_untuk_spesifikasi_sub_barang = $(this).attr('id');
+
+            $('.tambah_spesifikasi_sub_barang').attr('id', bahan_id_sub_barang_untuk_spesifikasi_sub_barang);
+        });
+
+        $(document).on('click', '.tambah_spesifikasi_sub_barang', function(e) {
+            e.preventDefault();
+
+
+
+            $('#modal_spesifikasi_sub_barang').modal('hide');
+
+            $('#modal_tambah_spesifikasi_sub_barang').modal('show');
+
+
+
+            let bahan_input_id_sub_barang_nantinya = $(this).attr('id');
+
+
+            $.ajax({
+                url: '{{ route('barang.sub_barangById') }}',
+                method: 'get',
+                data: {
+                    id: bahan_input_id_sub_barang_nantinya,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#title_tambah_spesifikasi_sub_barang').text('Spesifikasi sub barang' + ' ' + data
+                        .sub_barang);
+                }
+            });
+
+
+            $.ajax({
+                url: '{{ route('formTambahSpesifkkasiSubBarang') }}',
+                method: 'get',
+                data: {
+                    sub_barang_id: bahan_input_id_sub_barang_nantinya,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    $('#content_form_spesifikasi_sub_barang').html(data)
+                }
+            });
+
+
+
+
+        })
     </script>
 @endpush

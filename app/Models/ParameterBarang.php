@@ -14,4 +14,8 @@ class ParameterBarang extends Model
     protected $fillable = [
         'barang_id', 'parameter', 'bobot'
     ];
+
+    public function spesifikasi(){
+        return $this->hasMany(SpesifikasiParameter::class, 'parameter_id', 'id');
+    }
 }

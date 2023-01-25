@@ -108,7 +108,8 @@ Route::prefix('dashboard')
             ->name('sepsifikasiParameterDestroy');
         Route::post('spesifikasiParameterUpdate', [BarangController::class, 'spesifikasiParameterUpdate'])
             ->name('spesifikasiParameterUpdate');
-
+        Route::get('formTambahSpesifkkasiSubBarang', [BarangController::class, 'formTambahSpesifkkasiSubBarang'])
+            ->name('formTambahSpesifkkasiSubBarang');
 
 
         // unit
