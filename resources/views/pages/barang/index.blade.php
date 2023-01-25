@@ -548,18 +548,13 @@
 
                             <thead>
                                 <tr>
-                                    <th>Spesifikasi Parameter</th>
+                                    <th>Parameter</th>
+                                    <th>Spesifikasi</th>
                                     <th>Level</th>
-                                    <th>Aksi</th>
+
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                </tr>
-                            </tbody>
+
 
                         </table>
                     </div>
@@ -1503,6 +1498,41 @@
 
             let bahan_id_sub_barang_untuk_spesifikasi_sub_barang = $(this).attr('id');
 
+            $('#datatables_spesifikasi_sub_barang').dataTable({
+                destroy: true,
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                pageLength: 5,
+                lengthMenu: [
+                    [5, 10, 20, -1],
+                    [5, 10, 20, "50"]
+                ],
+                // responsive: true,
+                order: [],
+                ajax: {
+                    url: "{{ route('data_spesifikasi_sub_barang') }}",
+                    data: {
+                        sub_barang_id: bahan_id_sub_barang_untuk_spesifikasi_sub_barang
+                    },
+                },
+                columns: [{
+                        data: 'parameter',
+                        name: 'parameter'
+                    },
+                    {
+                        data: 'spesifikasi',
+                        name: 'spesifikasi'
+                    },
+                    {
+                        data: 'level',
+                        name: 'level'
+                    },
+
+
+                ]
+            });
+
             $('.tambah_spesifikasi_sub_barang').attr('id', bahan_id_sub_barang_untuk_spesifikasi_sub_barang);
         });
 
@@ -1547,7 +1577,6 @@
             });
         });
 
-
         $(document).on('submit', '#form_tambah_spesifikasi_sub_barang', function(e) {
             e.preventDefault();
             const fd = new FormData(this);
@@ -1577,6 +1606,7 @@
                         $('#form_tambah_spesifikasi_sub_barang')[0].reset();
                         $("#form_tambah_spesifikasi_sub_barang_btn").text('Simpan');
                         $("#modal_tambah_spesifikasi_sub_barang").modal('hide');
+
                     }
                 }
             });

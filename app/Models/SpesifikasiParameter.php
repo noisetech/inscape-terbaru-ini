@@ -18,4 +18,8 @@ class SpesifikasiParameter extends Model
     public function parameter(){
         return $this->belongsTo(ParameterBarang::class);
     }
+
+    public function spesifikasi_sub_barang(){
+        return $this->hasMany(ParameterBarang::class, 'parameter_id', 'id');
+    }
 }

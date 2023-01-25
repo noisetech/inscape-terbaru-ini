@@ -15,11 +15,13 @@ class SpesifikasiSubBarang extends Model
         'sub_barang_id', 'spesifikasi_paramaeter_id'
     ];
 
-    public function sub_barang(){
+    public function sub_barang()
+    {
         return $this->belongsTo(SubBarang::class, 'sub_barang_id', 'id');
     }
 
-    public function spesifikasi_parameter(){
+    public function spesifikasi_parameter()
+    {
         return $this->belongsTo(SpesifikasiParameter::class, 'spesifikasi_parameter_id', 'id');
     }
 }

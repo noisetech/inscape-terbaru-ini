@@ -557,30 +557,24 @@ class BarangController extends Controller
     }
 
     // bagian spesifikasi sub barang
-
     public function data_spesifikasi_sub_barang(Request $request)
     {
-        $data = SpesifikasiParameter::where('parameter_id', $request->parameter_id)->get();
+        $data = SpesifikasiSubBarang::where('sub_barang_id', $request->sub_barang_id)->get();
 
         return datatables()->of($data)
 
-            ->addColumn('aksi', function ($data) {
-                $button = "
-                    <div class='d-flex justify-content-start'>
-                        <div class='label-main'>
-                        <a class='edit_spesifikasi_parameter label label-warning' href='javascript:' id='" . $data->id . "'>Ubah</a>
-                        </div>";
-
-                $button  .= "<div class='label-main'>
-                            <a href='javascript:void(0)' class='hapus_spesifikasi_parameter label label-danger'
-                            id='" . $data->id . "'>Hapus</a>
-                       </div>
-                       </div>
-
-                 ";
-                return $button;
+            ->addColumn('parameter', function ($data) {
+                return $data->spesifikasi_parameter->parameter->parameter;
             })
-            ->rawColumns(['aksi'])
+            ->addColumn('spesifikasi', function ($data) {
+                return $data->spesifikasi_parameter->spesifikasi;
+            })
+            ->addColumn('level', function ($data) {
+                return $data->spesifikasi_parameter->level;
+            })
+
+
+            ->rawColumns(['aksi', 'parameter', 'spesifikasi', 'level'])
             ->make('true');
     }
 

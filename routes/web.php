@@ -113,6 +113,8 @@ Route::prefix('dashboard')
 
 
         // spesifikasi sub barang
+        Route::get('spesifikasi_sub_barang.data', [BarangController::class, 'data_spesifikasi_sub_barang'])
+            ->name('data_spesifikasi_sub_barang');
         Route::post('ptambah_spesifkasi_sub_barang', [BarangController::class, 'ptambah_spesifkasi_sub_barang'])
             ->name('ptambah_spesifkasi_sub_barang');
 
