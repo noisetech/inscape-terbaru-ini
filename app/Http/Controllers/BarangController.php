@@ -572,9 +572,12 @@ class BarangController extends Controller
             ->addColumn('level', function ($data) {
                 return $data->spesifikasi_parameter->level;
             })
+            ->addColumn('bobot', function ($data) {
+                return $data->spesifikasi_parameter->parameter->bobot;
+            })
 
 
-            ->rawColumns(['aksi', 'parameter', 'spesifikasi', 'level'])
+            ->rawColumns(['aksi', 'parameter', 'spesifikasi', 'level', 'bobot'])
             ->make('true');
     }
 

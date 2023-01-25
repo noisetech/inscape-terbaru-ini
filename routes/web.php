@@ -5,6 +5,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KotaController;
+use App\Http\Controllers\PengadaanController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProvinceController;
@@ -126,6 +127,11 @@ Route::prefix('dashboard')
         Route::post('unit.destroy', [UnitController::class, 'destroy'])->name('unit.destroy');
         Route::get('unit.dataById', [UnitController::class, 'dataById'])->name('unit.dataById');
         Route::post('unit.update', [UnitController::class, 'update'])->name('unit.update');
+
+
+        // pengadaan
+        Route::get('pengadaan', [PengadaanController::class, 'index'])
+        ->name('pengadaan');
     });
 
 Auth::routes();

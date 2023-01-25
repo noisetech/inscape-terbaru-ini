@@ -551,7 +551,7 @@
                                     <th>Parameter</th>
                                     <th>Spesifikasi</th>
                                     <th>Level</th>
-
+                                    <th>Bobot</th>
                                 </tr>
                             </thead>
 
@@ -1527,6 +1527,11 @@
                     {
                         data: 'level',
                         name: 'level'
+                    },
+
+                    {
+                        data: 'bobot',
+                        name: 'bobot'
                     },
 
 
