@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\ParameterBarang;
 use App\Models\SpesifikasiParameter;
+use App\Models\SpesifikasiSubBarang;
 use App\Models\SubBarang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -598,7 +599,7 @@ class BarangController extends Controller
 
             $html .=      '<div class="form-group">
             <label for="">' . $parameter->parameter . '</label>
-            <select class="form-control" name="spesifikasi_parameter">';
+            <select class="form-control" name="spesifikasi_parameter_id[]">';
             foreach ($parameter->spesifikasi as  $spesifikasi) :
                 $html .=  '<option value="' . $spesifikasi->id . '">' . $spesifikasi->spesifikasi . '</option>';
             endforeach;
@@ -616,5 +617,25 @@ class BarangController extends Controller
         </form>';
 
         return response()->json($html);
+    }
+
+    public function ptambah_spesifkasi_sub_barang(Request $request)
+    {
+        $data = $request->all();
+
+        foreach ($data['spesifikasi_parameter_id'] as $key => $value) {
+            $spesifikasi_sub_barang = new SpesifikasiSubBarang();
+            $spesifikasi_sub_barang->sub_barang_id = $request->sub_barang_id;
+            $spesifikasi_sub_barang->spesifikasi_parameter_id = $data['spesifikasi_parameter_id'][$key];
+            $simpan =  $spesifikasi_sub_barang->save();
+        }
+
+        if ($simpan) {
+            return response()->json([
+                'status' => 'success',
+                'title' => 'Berhasil',
+                'message' => 'Data ditambah'
+            ]);
+        }
     }
 }

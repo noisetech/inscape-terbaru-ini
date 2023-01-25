@@ -1545,10 +1545,41 @@
                     $('#content_form_spesifikasi_sub_barang').html(data)
                 }
             });
+        });
 
 
-
-
+        $(document).on('submit', '#form_tambah_spesifikasi_sub_barang', function(e) {
+            e.preventDefault();
+            const fd = new FormData(this);
+            $("#form_tambah_spesifikasi_sub_barang_btn").text('Menyimpan...');
+            $.ajax({
+                url: '{{ route('ptambah_spesifkasi_sub_barang') }}',
+                method: 'post',
+                data: fd,
+                cache: false,
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+                beforeSend: function() {
+                    $(document).find('span.error-text').text('');
+                },
+                success: function(data) {
+                    if (data.status == 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            text: data.message,
+                            title: data.title,
+                            toast: true,
+                            position: 'top-end',
+                            timer: 1800,
+                            showConfirmButton: false,
+                        });
+                        $('#form_tambah_spesifikasi_sub_barang')[0].reset();
+                        $("#form_tambah_spesifikasi_sub_barang_btn").text('Simpan');
+                        $("#modal_tambah_spesifikasi_sub_barang").modal('hide');
+                    }
+                }
+            });
         })
     </script>
 @endpush

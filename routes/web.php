@@ -112,6 +112,11 @@ Route::prefix('dashboard')
             ->name('formTambahSpesifkkasiSubBarang');
 
 
+        // spesifikasi sub barang
+        Route::post('ptambah_spesifkasi_sub_barang', [BarangController::class, 'ptambah_spesifkasi_sub_barang'])
+            ->name('ptambah_spesifkasi_sub_barang');
+
+
         // unit
         Route::get('unit', [UnitController::class, 'index'])->name('unit.index');
         Route::post('unit.store', [UnitController::class, 'store'])->name('unit.store');
