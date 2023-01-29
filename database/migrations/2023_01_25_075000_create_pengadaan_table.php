@@ -22,6 +22,8 @@ class CreatePengadaanTable extends Migration
             $table->string('file')->nullable();
             $table->integer('anggaran');
             $table->string('disposisi')->nullable();
+
+
             $table->softDeletes();
             $table->timestamps();
 

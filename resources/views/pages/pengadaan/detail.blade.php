@@ -40,26 +40,17 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h5>List Pengadaan</h5>
-                                    <div class="label-main">
-                                        <a href="{{ route('pengadaan.h_tambah') }}" class="label label-primary">
-                                            Tambah
-                                        </a>
-                                    </div>
-
+                                    <h5>Detail Pengadaan</h5>
                                 </div>
                             </div>
                             <div class="card-block table-border-style">
-                                <div class="table-responsive">
-                                    <table id="example" class="table table-striped responsive nowrap" cellpadding="0"
-                                        cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Nomor Pengadaan</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <p>Unit: {{ $pengadaan->unit->unit }}</p>
+                                        <p>Tahun: {{ $pengadaan->tahun->tahun }}</p>
+                                        <p>No Nota Dinas: {{ $pengadaan->no_nota_dinas }}</p>
+                                        <p>Anggaran: {{ number_format($pengadaan->anggaran, 0, '.', '.') }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -70,35 +61,3 @@
         </div>
     </div>
 @endsection
-
-
-@push('script')
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable({
-                "responsive": true,
-                processing: true,
-                serverSide: true,
-                pageLength: 5,
-                lengthMenu: [
-                    [5, 10, 20, -1],
-                    [5, 10, 20, "50"]
-                ],
-                // responsive: true,
-                order: [],
-                ajax: {
-                    url: "{{ route('pengadaan.data') }}"
-                },
-                columns: [{
-                        data: 'no_nota_dinas',
-                        name: 'no_nota_dinas'
-                    },
-                    {
-                        data: 'aksi',
-                        name: 'aksi'
-                    },
-                ]
-            });
-        });
-    </script>
-@endpush

@@ -131,7 +131,19 @@ Route::prefix('dashboard')
 
         // pengadaan
         Route::get('pengadaan', [PengadaanController::class, 'index'])
-        ->name('pengadaan');
+            ->name('pengadaan');
+        Route::get('pengadaan.data', [PengadaanController::class, 'data'])
+        ->name('pengadaan.data');
+        Route::get('pengadaan/h-tambah', [PengadaanController::class, 'h_tambah'])
+            ->name('pengadaan.h_tambah');
+        Route::get('pengadaan/list_tahun', [PengadaanController::class, 'list_tahun'])
+            ->name('pengadaan.list_tahun');
+        Route::get('pengadaan/list-unit', [PengadaanController::class, 'list_unit'])
+        ->name('pengadaan.list_unit');
+        Route::post('pengadaan.simpan', [PengadaanController::class, 'simpan'])
+        ->name('pengadaan.simpan');
+        Route::get('pengadaan/detail/{id}', [PengadaanController::class, 'detail'])
+        ->name('pengadaan.detail');
     });
 
 Auth::routes();
